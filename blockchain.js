@@ -11,8 +11,10 @@ class Blockchain {
     return block;
   }
 
+  // chain integrity validation
   isValidChain(chain) {
     if (JSON.stringify(chain[0]) != JSON.stringify(Block.genesis)) {
+      console.log('incorrect genesis block is found.');
       return false;
     }
 
@@ -20,14 +22,31 @@ class Blockchain {
       const block = chain[i];
       const lastBlock = chain[i - 1];
 
-      if (
-        block.lastHash != lastBlock.hash ||
-        Block.getBlockHash(block) != block.hash
-      ) {
+      if (block.lastHash != lastBlock.hash) {
+        console.log('broken chain is found.');
+        return false;
+      }
+
+      if (Block.getBlockHash(block) != block.hash) {
+        console.log('hash mismatch is found.');
         return false;
       }
     }
     return true;
+  }
+
+  replaceChain(newChain) {
+    if (newChain.length <= this.chain.length) {
+      console.log(
+        `invalid new chain length ${newChain.length} is recieved. actual chain length ${this.chain.length}`
+      );
+      return;
+    } else if (!this.isValidChain(newChain)) {
+      console.log('invalid chain');
+      return;
+    }
+    console.log('replacing Blockchain with a new chain');
+    this.chain = newChain;
   }
 }
 

@@ -36,8 +36,19 @@ describe('Blockchain', () => {
 
   it('invalidates a corrupt chain', () => {
     bc2.addBlock(data);
-    // bc2.chain[1].lastHash = 'corruptedHash';
-    bc2.chain[1].data = 'foo';
+    bc2.chain[1].data = 'corruptedData'; // or any other element
     expect(bc.isValidChain(bc2.chain)).toBe(false);
+  });
+
+  it('replaces the blockchain with the new chain', () => {
+    bc2.addBlock(data);
+    bc.replaceChain(bc2.chain);
+    expect(bc.chain).toEqual(bc2.chain);
+  });
+
+  it('fewer blocks in the new chain - does not replace the chain', () => {
+    bc.addBlock(data);
+    bc.replaceChain(bc2.chain);
+    expect(bc.chain).not.toEqual(bc2.chain);
   });
 });
