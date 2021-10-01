@@ -11,9 +11,8 @@ class Blockchain {
     return block;
   }
 
-  // chain integrity validation
   isValidChain(chain) {
-    if (JSON.stringify(chain[0]) != JSON.stringify(Block.genesis)) {
+    if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
       console.log('incorrect genesis block is found.');
       return false;
     }
@@ -22,13 +21,11 @@ class Blockchain {
       const block = chain[i];
       const lastBlock = chain[i - 1];
 
-      if (block.lastHash != lastBlock.hash) {
-        console.log('broken chain is found.');
-        return false;
-      }
-
-      if (Block.getBlockHash(block) != block.hash) {
-        console.log('hash mismatch is found.');
+      if (
+        block.lastHash !== lastBlock.hash ||
+        block.hash !== Block.blockHash(block)
+      ) {
+        console.log('incorrect non-genesis block is found');
         return false;
       }
     }
