@@ -5,8 +5,8 @@ describe('Block', () => {
 
   beforeEach(() => {
     data = {
-      sender: 'Steven Cox ',
-      recepient: 'Mani Ramachandran',
+      sender: 'John Doe',
+      recepient: 'Jill Doe',
       quantity: 6,
     };
 
