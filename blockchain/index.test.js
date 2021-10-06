@@ -21,6 +21,7 @@ describe('Blockchain', () => {
 
   it('validates a valid chain', () => {
     bc2.addBlock('foo');
+    console.log(`block length is ${bc2.chain.length}`);
     expect(bc.isValidChain(bc2.chain)).toBe(true);
   });
 

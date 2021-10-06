@@ -29,20 +29,24 @@ class Blockchain {
         return false;
       }
     }
+    // console.log('This is a valid chain.');
+    // chain.forEach((elem) => {
+    //   console.log(elem);
+    // });
     return true;
   }
 
   replaceChain(newChain) {
     if (newChain.length <= this.chain.length) {
       console.log(
-        `invalid new chain length ${newChain.length} is recieved. actual chain length ${this.chain.length}`
+        `Received chain with length ${newChain.length}. Not longer than the current chain. `
       );
       return;
     } else if (!this.isValidChain(newChain)) {
-      console.log('invalid chain');
+      console.log('The received chain is not valid.');
       return;
     }
-    console.log('replacing Blockchain with a new chain');
+    console.log('replacing Blockchain with the received chain');
     this.chain = newChain;
   }
 }
