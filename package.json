@@ -10,6 +10,9 @@
     "dev2": "set HTTP_PORT=3002&&set P2P_PORT=5002&&set PEERS=ws://localhost:5001&& npm run dev",
     "test": "jest --WatchAll"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +26,7 @@
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "express": "^4.17.1",
+    "uuid": "^8.3.2",
     "ws": "^8.2.3"
   }
 }
