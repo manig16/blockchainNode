@@ -48,3 +48,12 @@ describe('Blockchain', () => {
     expect(bc.chain).not.toEqual(bc2.chain);
   });
 });
+
+describe('Add blocks', () => {
+  it('adds 3 blocks', () => {
+    const bc = new Blockchain();
+    for (let i = 0; i < 2; i++) {
+      console.log(bc.addBlock(`foo ${i}`).toString());
+    }
+  });
+});
