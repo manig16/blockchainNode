@@ -6,7 +6,7 @@ describe('Block', () => {
   beforeEach(() => {
     data = {
       sender: 'John Doe',
-      recepient: 'Jill Doe',
+      recepient: 'Jane Doe',
       quantity: 6,
     };
 
@@ -26,7 +26,6 @@ describe('Block', () => {
     expect(block.hash.substring(0, block.difficulty)).toEqual(
       '0'.repeat(block.difficulty)
     );
-    // console.log(block.toString());
   });
 
   it('lowers the difficulty for slowly mined blocks', () => {
@@ -36,7 +35,7 @@ describe('Block', () => {
   });
 
   it('raises the difficulty for faster mined blocks', () => {
-    expect(Block.adjustDifficulty(block, block.timeStamp - 360000 + 1)).toEqual(
+    expect(Block.adjustDifficulty(block, block.timeStamp + 1)).toEqual(
       block.difficulty + 1
     );
   });
