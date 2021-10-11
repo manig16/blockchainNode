@@ -4,10 +4,15 @@ const P2P_PORT = process.env.P2P_PORT || 5001;
 
 //peers= ws://localhost:5001,ws://localhost:5002
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
+const MESSAGE_TYPES = {
+  chain: 'CHAIN',
+  transaction: 'transaction',
+};
 
 class P2pServer {
-  constructor(blockchain) {
+  constructor(blockchain, transactionPool) {
     this.blockchain = blockchain;
+    this.transactionPool = transactionPool;
     this.sockets = [];
   }
 
@@ -19,7 +24,7 @@ class P2pServer {
   }
 
   connectToPeers() {
-    peers.forEach(peer => {
+    peers.forEach((peer) => {
       const socket = new websocket(peer);
       socket.on('open', () => this.connectSocket(socket));
     });
@@ -33,18 +38,43 @@ class P2pServer {
   }
 
   messageHandler(socket) {
-    socket.on('message', message => {
+    socket.on('message', (message) => {
       const data = JSON.parse(message);
-      this.blockchain.replaceChain(data.chain);
+      switch (data.type) {
+        case MESSAGE_TYPES.chain:
+          this.blockchain.replaceChain(data.chain);
+          break;
+        case MESSAGE_TYPES.transaction:
+          this.transactionPool.AddOrUpdateTransaction(data.transaction);
+          break;
+      }
     });
   }
 
   sendChain(socket) {
-    socket.send(JSON.stringify(this.blockchain.chain));
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPES.chain,
+        chain: this.blockchain.chain,
+      })
+    );
+  }
+
+  sendTransaction(socket, transaction) {
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPES.transaction,
+        transaction,
+      })
+    );
   }
 
   syncChains() {
-    this.sockets.forEach(socket => this.sendChain(socket));
+    this.sockets.forEach((socket) => this.sendChain(socket));
+  }
+
+  broadcastTransaction(transaction) {
+    this.sockets.forEach((socket) => this.sendTransaction(socket, transaction));
   }
 }
 
