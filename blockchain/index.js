@@ -29,10 +29,6 @@ class Blockchain {
         return false;
       }
     }
-    // console.log('This is a valid chain.');
-    // chain.forEach((elem) => {
-    //   console.log(elem);
-    // });
     return true;
   }
 

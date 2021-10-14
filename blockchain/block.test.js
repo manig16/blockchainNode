@@ -1,4 +1,4 @@
-const Block = require('./Block');
+const Block = require('./block');
 
 describe('Block', () => {
   let data, lastBlock, block;
@@ -15,7 +15,7 @@ describe('Block', () => {
   });
 
   it('sets the `data` to match the input', () => {
-    expect(block.data).toStrictEqual(data);
+    expect(block.data).toEqual(data);
   });
 
   it('sets the `lasthash` to match the hash of the last block', () => {
@@ -29,13 +29,13 @@ describe('Block', () => {
   });
 
   it('lowers the difficulty for slowly mined blocks', () => {
-    expect(Block.adjustDifficulty(block, block.timeStamp + 360000)).toEqual(
+    expect(Block.adjustDifficulty(block, block.timestamp + 360000)).toEqual(
       block.difficulty - 1
     );
   });
 
   it('raises the difficulty for faster mined blocks', () => {
-    expect(Block.adjustDifficulty(block, block.timeStamp + 1)).toEqual(
+    expect(Block.adjustDifficulty(block, block.timestamp + 1)).toEqual(
       block.difficulty + 1
     );
   });

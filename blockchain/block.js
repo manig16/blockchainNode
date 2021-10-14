@@ -27,7 +27,6 @@ class Block {
 
   static createBlock(lastBlock, data) {
     let hash, timestamp;
-    timestamp = Date.now();
     const lastHash = lastBlock.hash;
     let { difficulty } = lastBlock;
     let nonce = 0;
@@ -53,7 +52,6 @@ class Block {
   }
 
   static adjustDifficulty(lastBlock, currentTime) {
-    // grab the difficulty from the last block
     let { difficulty } = lastBlock;
     difficulty =
       lastBlock.timestamp + MINE_RATE > currentTime
